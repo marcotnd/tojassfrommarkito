@@ -1,2 +1,149 @@
-Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): 2026-02-11 00:08:42
-Current User's Login: marcotnd
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Nuestro Amor</title>
+
+<style>
+body {
+    margin: 0;
+    background: #ffeef2;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Pantalla inicial */
+#inicio {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.corazon {
+    font-size: 90px;
+    cursor: pointer;
+    animation: latido 1s infinite;
+}
+
+@keyframes latido {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+/* Escena */
+#escena {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.tronco {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 0;
+    background: #8b5a2b;
+    transition: height 2s;
+}
+
+.hoja {
+    position: absolute;
+    color: red;
+    font-size: 22px;
+    opacity: 0;
+    transition: all 2s;
+}
+
+#contador {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    font-size: 22px;
+    color: #d6336c;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div id="inicio">
+    <div class="corazon" onclick="mostrarArbol()">❤️</div>
+    <h2>Te amo</h2>
+    <p>Toca el corazón</p>
+</div>
+
+<div id="escena">
+    <div id="contador"></div>
+    <div class="tronco" id="tronco"></div>
+</div>
+
+<script>
+// Fecha de inicio: 27 enero 2026, 7:00 PM
+const fechaInicio = new Date("2026-01-27T19:00:00");
+
+// Contador en tiempo real
+function actualizarContador() {
+    const ahora = new Date();
+    let diferencia = ahora - fechaInicio;
+
+    if (diferencia < 0) {
+        document.getElementById("contador").innerText =
+        "Nuestro tiempo empieza pronto ❤️";
+        return;
+    }
+
+    const dias = Math.floor(diferencia / (1000*60*60*24));
+    diferencia -= dias * (1000*60*60*24);
+
+    const horas = Math.floor(diferencia / (1000*60*60));
+    diferencia -= horas * (1000*60*60);
+
+    const minutos = Math.floor(diferencia / (1000*60));
+    diferencia -= minutos * (1000*60);
+
+    const segundos = Math.floor(diferencia / 1000);
+
+    document.getElementById("contador").innerText =
+    `Juntos: ${dias} días ${horas}h ${minutos}m ${segundos}s ❤️`;
+}
+
+// Mostrar árbol
+function mostrarArbol() {
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("escena").style.display = "block";
+
+    const tronco = document.getElementById("tronco");
+    tronco.style.height = "220px";
+
+    for (let i = 0; i < 50; i++) {
+        const hoja = document.createElement("div");
+        hoja.className = "hoja";
+        hoja.innerText = "❤️";
+
+        hoja.style.left = (window.innerWidth/2 + (Math.random()*250 - 125)) + "px";
+        hoja.style.bottom = (220 + Math.random()*250) + "px";
+
+        document.getElementById("escena").appendChild(hoja);
+
+        setTimeout(() => {
+            hoja.style.opacity = 1;
+            hoja.style.transform = "scale(1.4)";
+        }, 100);
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+}
+</script>
+
+</body>
+</html>
